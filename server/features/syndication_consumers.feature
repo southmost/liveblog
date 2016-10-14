@@ -46,7 +46,7 @@ Feature: Consumer Resource
     Scenario: Delete consumer
         Given "consumers"
         """
-        [{"name": "Consumer 1", "contacts": [{"first_name": "Foo", "last_name": "Bar", "email": "foo@bar.tld", "phone": "+49123456789"}]}]
+        [{"name": "Producer 1", "api_url": "http://localhost:5000/api/", "consumer_api_key": "__any_value__"}]
         """
         When we find for "consumers" the id as "consumer_id" by "where={"name": "Consumer 1"}"
         And we delete "/consumers/#consumer_id#"
