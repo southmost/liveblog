@@ -189,6 +189,7 @@ define([
             highlight: false,
             filter: {isHighlight: false},
             selectPostTypeDialog: false,
+            isFreetypesEnabled: config.freetypes,
             selectedPostType: 'Default',
             toggleTypePostDialog: function() {
                 $scope.selectPostTypeDialog = !$scope.selectPostTypeDialog;

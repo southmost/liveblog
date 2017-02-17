@@ -20,6 +20,7 @@ module.exports = function(grunt) {
             facebookAppId: grunt.option('facebook-appid') || process.env.FACEBOOK_APP_ID || '',
             syndication: process.env.SYNDICATION || false,
             marketplace: process.env.MARKETPLACE || false,
+            freetypes: process.env.FREETYPES || false,
             themeCreationRestrictions: {team: 3},
             excludedTheme: 'angular',
             assignableUsers: {

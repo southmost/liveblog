@@ -78,7 +78,7 @@
 
     var liveblogFreetypesModule = angular.module('liveblog.freetypes', [])
     .config(['superdeskProvider', function(superdesk) {
-        if (config.subscriptionLevel != 'solo')
+        if (config.subscriptionLevel != 'solo' && config.freetypes)
             superdesk
                 .activity('/freetypes/', {
                     label: gettext('Free types manager'),
