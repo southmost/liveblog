@@ -163,6 +163,9 @@ FLASK_ASSETS_USE_S3 = False
 AMAZON_S3_SUBFOLDER = env('AMAZON_S3_SUBFOLDER', None)
 USE_S3 = FLASK_ASSETS_USE_S3
 
+# Path relative to themes /liveblog/server/liveblog/themes/
+# Also an absolute path can be setted
+CUSTOM_THEMES_ASSETS = env('CUSTOM_THEMES_ASSETS', './themes_assets')
 
 SUPPORTED_LANGUAGES = {
     'languages': {

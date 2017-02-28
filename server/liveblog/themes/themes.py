@@ -32,6 +32,9 @@ from settings import (SUBSCRIPTION_LEVEL, SUBSCRIPTION_MAX_THEMES)
 logger = logging.getLogger('superdesk')
 ASSETS_DIR = 'themes_assets'
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+CUSTOM_THEMES_ASSETS = app.config.get('CUSTOM_THEMES_ASSETS')
+
+
 CONTENT_TYPES = {
     '.css': 'text/css',
     '.js': 'application/javascript',
@@ -156,8 +159,12 @@ class ThemesService(BaseService):
         return settings
 
     def get_local_themes_packages(self):
+        themes_grabbed = []
         theme_folder = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR)
-        for file in glob.glob(theme_folder + '/**/theme.json'):
+        for files in (theme_folder + '/**/theme.json', CUSTOM_THEMES_ASSETS + '/**/theme.json'):
+            files_grabbed.extend(glob.glob(files))
+
+        for file in themes_grabbed:
             files = []
             for root, dirnames, filenames in os.walk(os.path.dirname(file)):
                 for filename in filenames:
@@ -181,7 +188,7 @@ class ThemesService(BaseService):
                     content_type = mime.from_file(name)
                     if content_type == 'text/plain' and name.endswith(tuple(CONTENT_TYPES.keys())):
                         content_type = CONTENT_TYPES[os.path.splitext(name)[1]]
-                    final_file_name = os.path.relpath(name, CURRENT_DIRECTORY)
+                    final_file_name = os.path.relpath(name, CUSTOM_THEMES_ASSETS)
                     # remove existing first
                     # TO DO: add version parameter to media_id() after merging related core-changes in
                     # amazon_media_storage and desk_media storage
@@ -339,9 +346,14 @@ def download_a_theme(theme_name):
         error_message = 'Themes: "{}" this theme is not registered.'.format(theme_name)
         logger.info(error_message)
         raise UnknownTheme(error_message)
-    theme_filepath = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, theme_name)
+    theme_filepath = os.path.join(CUSTOM_THEMES_ASSETS, ASSETS_DIR, theme_name)
+    themes_folder = os.path.join(CUSTOM_THEMES_ASSETS, ASSETS_DIR)
+    if not os.path.isdir(theme_filepath):
+        theme_filepath = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, theme_name)
+        themes_folder = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR)
+    if not os.path.isdir(theme_filepath):
+        raise SuperdeskError(400, 'Theme not found')
     theme_zip = BytesIO()
-    themes_folder = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR)
     # keep the same nameing convention as we have in github.
     zip_folder = 'lb-theme-{}-{}'.format(theme_name, theme.get('version', 'master'))
     with zipfile.ZipFile(theme_zip, 'w') as tz:
@@ -392,7 +404,7 @@ def upload_a_theme():
             # 1. remove the root folder
             local_filepath = name.replace(root_folder, '', 1)
             # 2. prepend in a root folder called as the theme's name
-            local_filepath = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, description_file.get('name'), local_filepath)
+            local_filepath = os.path.join(CUSTOM_THEMES_ASSETS, ASSETS_DIR, description_file.get('name'), local_filepath)
             # 1. create folder if doesn't exist
             os.makedirs(os.path.dirname(local_filepath), exist_ok=True)
             # 2. write the file
