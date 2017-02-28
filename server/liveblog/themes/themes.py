@@ -402,7 +402,10 @@ def upload_a_theme():
             # 1. remove the root folder
             local_filepath = name.replace(root_folder, '', 1)
             # 2. prepend in a root folder called as the theme's name
-            local_filepath = os.path.join(app.config.get('CUSTOM_THEMES_ASSETS'), description_file.get('name'), local_filepath)
+            local_filepath = os.path.join(
+                app.config.get('CUSTOM_THEMES_ASSETS'),
+                description_file.get('name'),
+                local_filepath)
             # 1. create folder if doesn't exist
             os.makedirs(os.path.dirname(local_filepath), exist_ok=True)
             # 2. write the file
