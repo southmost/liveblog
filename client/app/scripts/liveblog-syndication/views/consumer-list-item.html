@@ -14,7 +14,7 @@
         <div class="name">{{ consumer.name }}</div>
         <div class="email">{{ consumer.webhook_url }}</div>
         <div class="name api-key">
-            <span id="api-key">{{ consumer.api_key }}</span>
+            <span id="api-key-{{$index}}">{{ consumer.api_key }}</span>
             <span>
                 <a title="Refresh api key"
                    ng-href=""
@@ -23,7 +23,7 @@
                     <i class="icon-refresh true"></i>
                 </a>
             </span>
-            <span lb-copy-to-clipboard for="api-key"></span>
+            <span lb-copy-to-clipboard for="api-key-{{$index}}"></span>
         </div>
         <div lb-first-contact prosumer="consumer" class="name"></div>
     </div>
