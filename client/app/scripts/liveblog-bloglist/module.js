@@ -164,7 +164,6 @@
         };
 
         $scope.checkAccessRequestLimit = function(blog) {
-            console.log('check access request limit');
             $scope.allowAccessRequest = false;
 
             var theoricalMembers = [];
