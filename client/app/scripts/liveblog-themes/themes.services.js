@@ -44,7 +44,7 @@
                 }
             }
             themes.forEach(function(theme) {
-                addToHierarchy(theme.name, theme['extends']);
+                addToHierarchy(theme.name, theme.extends);
             });
             var max_loops = todo.length * todo.length;
             while (todo.length > 0 && max_loops > 0) {
@@ -90,9 +90,17 @@
                 }).concat(options);
             }
             // retrieve parent options
-            if (currenTheme['extends']) {
-                return api.themes.getById(currenTheme['extends']).then(function(parentTheme) {
+            if (currenTheme.extends) {
+                return api.themes.getById(currenTheme.extends).then(function(parentTheme) {
                     return collectOptions(currenTheme, options, parentTheme);
+                });
+            } else {
+                // return the options when there is no more parent theme
+                // set default settings value from options default values
+                options.forEach(function(option) {
+                    if (!angular.isDefined(theme.settings[option.name])) {
+                        theme.settings[option.name] = option.default;
+                    }
                 });
             }
 
