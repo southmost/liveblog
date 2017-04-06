@@ -162,7 +162,8 @@ INSTALLED_APPS = [
     'liveblog.syndication',
     'liveblog.freetypes',
     'liveblog.marketplace',
-    'liveblog.analytics'
+    'liveblog.analytics',
+    'liveblog.advertisements',
 ]
 
 RESOURCE_METHODS = ['GET', 'POST']
@@ -249,7 +250,7 @@ if LDAP_SERVER:
 else:
     INSTALLED_APPS.append('apps.auth.db')
 
-SUPERDESK_TESTING = (env('SUPERDESK_TESTING', 'true').lower() == 'true')
+SUPERDESK_TESTING = (env('SUPERDESK_TESTING', 'false').lower() == 'true')
 
 # Debuging state, this is used when generating theme emebed files default `false`.
 LIVEBLOG_DEBUG = (env('LIVEBLOG_DEBUG', 'false').lower() == 'true')

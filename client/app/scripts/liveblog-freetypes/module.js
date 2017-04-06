@@ -6,7 +6,6 @@ LiveblogFreetypesController.$inject = ['api', '$location', 'notify', 'gettext',
 function LiveblogFreetypesController(api, $location, notify, gettext,
 $q, $sce, config, _, upload, blogService, modal) {
     var vm = this;
-
         function getFreetypes(silent) {
             silent = silent || false;
             api.freetypes.query().then(function(data) {
@@ -66,11 +65,9 @@ $q, $sce, config, _, upload, blogService, modal) {
                         if (!vm.editFreetype) {
                             //it's a new freetype so not unique
                             unique = false;
-                        } else {
-                            if (vm.editFreetype._id !== freetype._id) {
-                                //not editing the same freetype
-                                unique = false;
-                            }
+                        } else if (vm.editFreetype._id !== freetype._id) {
+                            //not editing the same freetype
+                            unique = false;
                         }
                     }
                 });
@@ -114,7 +111,7 @@ $q, $sce, config, _, upload, blogService, modal) {
                 api.freetypes.remove(freetype).then(function(data) {
                     vm.freetypes.splice($index, 1);
                 }, function(data) {
-                    notify.errorp(gettext('Can\'t remove free type'));
+                    notify.error(gettext('Can\'t remove free type'));
                 });
             });
         },
