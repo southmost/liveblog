@@ -1,5 +1,3 @@
-'use strict';
-
 var path = require('path');
 var webpack = require('webpack');
 var lodash = require('lodash');
@@ -28,7 +26,7 @@ module.exports = function makeConfig(grunt) {
         }
         // include only 'superdesk-core' and valid modules inside node_modules
         let validModules = ['superdesk-core'].concat(sdConfig.apps);
-        return !validModules.some(app => p.indexOf(app) > -1);
+        return !validModules.some((app) => p.indexOf(app) > -1);
     };
 
     return {
@@ -73,7 +71,7 @@ module.exports = function makeConfig(grunt) {
             ],
             modulesDirectories: [ 'node_modules' ],
             alias: {
-                'moment-timezone': 'moment-timezone/builds/moment-timezone-with-data-2010-2020',
+                //'moment-timezone': 'moment-timezone/builds/moment-timezone-with-data-2010-2020',
                 'rangy-saverestore': 'rangy/lib/rangy-selectionsaverestore',
                 'angular-embedly': 'angular-embedly/em-minified/angular-embedly.min',
                 'jquery-gridster': 'gridster/dist/jquery.gridster.min',
@@ -106,16 +104,16 @@ module.exports = function makeConfig(grunt) {
                     loader: 'style!css'
                 },
                 {
-                    test: /\.less$/,
-                    loader: 'style!css!less'
-                },
-                {
                     test: /\.scss$/,
                     loader: 'style!css!sass'
                 },
                 {
                     test: /\.(png|gif|jpeg|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
                     loader: 'file-loader'
+                },
+                {
+                    test: /\.json$/,
+                    loader: 'json-loader'
                 }
             ]
         }
