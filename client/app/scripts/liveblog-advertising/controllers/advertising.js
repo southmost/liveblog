@@ -44,6 +44,15 @@ upload, $templateCache, freetypeService, modal) {
                 loadAdverts();
         }
     }
+
+    $scope.output = function() {
+        api('outputs')
+            .query({where: {deleted: false}})
+            .then((data) => {
+                console.log(data._items)
+            });
+    }
+
     $scope.openAdvertDialog = function(ad) {
         if (ad._id) {
             // editing advert

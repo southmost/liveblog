@@ -61,11 +61,19 @@ def collect_theme_assets(theme, assets=None, template=None):
 
     return assets, template
 
-
-@embed_blueprint.route('/embed/<blog_id>')
-def embed(blog_id, api_host=None, theme=None):
+@embed_blueprint.route('/embed/<blog_id>', defaults={'theme': None, 'output': None})
+@embed_blueprint.route('/embed/<blog_id>/<output>', defaults={'output': None})
+@embed_blueprint.route('/embed/<blog_id>/<theme>/<output>')
+def embed(blog_id, theme=None, output=None, api_host=None):
     api_host = api_host or request.url_root
     blog = get_resource_service('client_blogs').find_one(req=None, _id=blog_id)
+
+    output_style = {}
+    if output:
+        output = get_resource_service('outputs').find_one(req=None, name=output)
+        output_style['background-color'] = output.get('background-color')
+        output_style['background-image'] = output.get('background-image')
+
     if not blog:
         return 'blog not found', 404
 
@@ -109,6 +117,7 @@ def embed(blog_id, api_host=None, theme=None):
     scope = {
         'blog': blog,
         'settings': get_resource_service('themes').get_default_settings(theme),
+        'output': output,
         'assets': assets,
         'api_host': api_host,
         'template': template_file,

@@ -20,16 +20,18 @@ from .utils import check_media_storage, get_blog_path, get_bloglist_path
 logger = logging.getLogger('superdesk')
 
 
-def publish_embed(blog_id, api_host=None, theme=None):
+def publish_embed(blog_id, api_host=None, theme=None, output=None):
     # Get html using embed() blueprint.
-    html = embed(blog_id, api_host, theme)
+    html = embed(blog_id, theme, output, api_host)
     check_media_storage()
     file_path = get_blog_path(blog_id)
     # Remove existing file.
     app.media.delete(app.media.media_id(file_path, version=False))
     logger.warning('Embed file "{}" for blog "{}" removed from s3'.format(file_path, blog_id))
     # Upload new file.
-    file_id = app.media.put(io.BytesIO(bytes(html, 'utf-8')), filename=file_path, content_type='text/html',
+    file_id = app.media.put(io.BytesIO(bytes(html, 'utf-8')),
+                            filename=file_path,
+                            content_type='text/html',
                             version=False)
     logger.warning('Embed file "{}" for blog "{}" uploaded to s3'.format(file_path, blog_id))
     return superdesk.upload.url_for_media(file_id)

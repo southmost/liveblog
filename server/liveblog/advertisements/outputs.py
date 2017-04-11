@@ -25,6 +25,7 @@ class OutputsResource(Resource):
         'background-image': {
             'type': 'string'
         },
+        'syyle'
         'deleted': {
             'type': 'boolean',
             'default': False

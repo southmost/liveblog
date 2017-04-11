@@ -26,6 +26,7 @@
         <script type="text/javascript">
             window.LB = {
                 blog: {{ blog | tojson | safe }},
+                output: {{ output | tojson | safe }},
                 settings: {{ settings | tojson | safe }},
                 api_host: '{{ api_host }}',
                 assets_root: '{{ assets_root }}',
