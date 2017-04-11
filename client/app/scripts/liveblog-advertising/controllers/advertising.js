@@ -1,5 +1,6 @@
 import adsLocalTpl from 'scripts/liveblog-edit/views/ads-local.html';
 import adsRemoteTpl from 'scripts/liveblog-edit/views/ads-remote.html';
+import _ from 'lodash';
 
 LiveblogAdvertisingController.$inject = ['$scope', 'api', 'notify', 'gettext',
 'upload','$templateCache', 'freetypeService', 'modal'];
@@ -150,6 +151,7 @@ upload, $templateCache, freetypeService, modal) {
     }
 
     $scope.openCollectionDialog = function(collection) {
+
         collection = collection || false;
         // load all available adverts without showing any messages
         loadAdverts(true).then(function() {
@@ -186,6 +188,7 @@ upload, $templateCache, freetypeService, modal) {
                 advertisements.push({'advertisement_id': ad_id});
             }
         })
+
         var newCollection = {
             'name': $scope.collection.name,
             'advertisements': advertisements
