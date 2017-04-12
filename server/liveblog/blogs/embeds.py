@@ -61,6 +61,8 @@ def collect_theme_assets(theme, assets=None, template=None):
 
     return assets, template
 
+    return assets, template
+
 @embed_blueprint.route('/embed/<blog_id>', defaults={'theme': None, 'output': None})
 @embed_blueprint.route('/embed/<blog_id>/<output>', defaults={'output': None})
 @embed_blueprint.route('/embed/<blog_id>/<theme>/<output>')

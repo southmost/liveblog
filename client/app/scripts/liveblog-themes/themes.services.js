@@ -108,7 +108,7 @@
             // set default settings value from options default values
             options.forEach(function(option) {
                 if (!angular.isDefined(theme.settings[option.name])) {
-                    theme.settings[option.name] = option['default'];
+                    theme.settings[option.name] = option.default;
                 }
             });
         }
